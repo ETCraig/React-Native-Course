@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import SearchBar from '../components/SearchBar';
 
 const SearchScreen = () => {
+    const [query, setQuery] = useState('');
     return (
         <View>
-            <SearchBar />
+            <SearchBar 
+                query={query} 
+                onQueryChange={newQuery => setQuery(newQuery)}  
+                onQuerySubmit={() => console.log('Query Submitted.')}
+            />
             <Text>Search Screen</Text>
         </View>
     );

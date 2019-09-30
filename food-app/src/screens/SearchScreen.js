@@ -4,7 +4,7 @@ import SearchBar from '../components/SearchBar';
 import useResults from '../hooks/useResults';
 import ResultsList from '../components/ResultsList';
 
-const SearchScreen = ({ navigation }) => {
+const SearchScreen = () => {
     const [query, setQuery] = useState('');
     const [searchApi, results, error] = useResults();
 
@@ -18,15 +18,15 @@ const SearchScreen = ({ navigation }) => {
         <>
             <SearchBar
                 query={query}
-                onQueryChange={() => setQuery(query)}
+                onQueryChange={(query) => setQuery(query)}
                 onQuerySubmit={() => searchApi()}
             />
             {error ? <Text>{error}</Text> : null}
             <ScrollView>
-                <ResultsList title="Cost Effective" results={filterResultsByPrice('$')} navigation={navigation} />
-                <ResultsList title="Mid Tier" results={filterResultsByPrice('$$')} navigation={navigation} />
-                <ResultsList title="Higher Tier" results={filterResultsByPrice('$$$')} navigation={navigation} />
-                <ResultsList title="Professional" results={filterResultsByPrice('$$$$')} navigation={navigation} />
+                <ResultsList title="Cost Effective" results={filterResultsByPrice('$')} />
+                <ResultsList title="Mid Tier" results={filterResultsByPrice('$$')} />
+                <ResultsList title="Higher Tier" results={filterResultsByPrice('$$$')} />
+                <ResultsList title="Professional" results={filterResultsByPrice('$$$$')} />
             </ScrollView>
         </>
     );

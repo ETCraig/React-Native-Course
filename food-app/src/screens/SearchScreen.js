@@ -1,30 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import SearchBar from '../components/SearchBar';
-import yelp from '../api/yelp';
+import useResults from '../hooks/useResults';
+import ResultsList from '../components/ResultsList';
 
 const SearchScreen = () => {
     const [query, setQuery] = useState('');
-    const [results, setResults] = useState([]);
-    const [error, setError] = useState('');
+    const [searchApi, results, error] = useResults();
 
-    useEffect(() => {
-        searchApi('pasta');
-    }, []);
-
-    const searchApi = async (searchQuery) => {
-        try {
-            const response = await yelp.get('/search', {
-                params: {
-                    limit: 50,
-                    term: searchQuery,
-                    location: 'phoenix'
-                }
-            });
-            setResults(response.data.businesses);
-        } catch (err) {
-            setError('Something Went Wrong!');
-        }
+    const filterResultsByPrice = (price) => {
+        return results.filter(result => {
+            return result.price === price;
+        });
     }
 
     return (
@@ -36,6 +23,10 @@ const SearchScreen = () => {
             />
             {error ? <Text>{error}</Text> : null}
             <Text>We Have Found {results.length}</Text>
+            <ResultsList title="Cost Effective" results={filterResultsByPrice('$')} />
+            <ResultsList title="Mid Tier" results={filterResultsByPrice('$$')} />
+            <ResultsList title="Higher Tier" results={filterResultsByPrice('$$$')} />
+            <ResultsList title="Professional" results={filterResultsByPrice('$$$$')} />
         </View>
     );
 };

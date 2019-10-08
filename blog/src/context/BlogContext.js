@@ -37,10 +37,11 @@ const getBlogPosts = dispatch => {
 
 const addBlogPost = dispatch => {
     return (title, content) => {
-        dispatch({
-            type: 'ADD_BLOGPOST',
-            payload: { title, content }
-        });
+        await jsonServer.post('blogposts', { title, content });
+        // dispatch({
+        //     type: 'ADD_BLOGPOST',
+        //     payload: { title, content }
+        // });
     }
 }
 

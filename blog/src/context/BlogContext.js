@@ -4,15 +4,6 @@ import jsonServer from '../api/jsonServer';
 const blogReducer = (state, action) => {
     let { type, payload } = action;
     switch (action) {
-        case 'ADD_BLOGPOST':
-            return [
-                ...state,
-                {
-                    id: Math.floor(Math.random() * 99999),
-                    title: payload.title,
-                    content: payload.content
-                }
-            ];
         case 'GET_BLOGPOSTS':
             return payload;
         case 'DELETE_BLOGPOST':
@@ -38,15 +29,12 @@ const getBlogPosts = dispatch => {
 const addBlogPost = dispatch => {
     return (title, content) => {
         await jsonServer.post('blogposts', { title, content });
-        // dispatch({
-        //     type: 'ADD_BLOGPOST',
-        //     payload: { title, content }
-        // });
     }
 }
 
 const deleteBlogPost = dispatch => {
-    return id => {
+    return async id => {
+        await jsonServer.delete(`/blogposts/${id}`);
         dispatch({
             type: 'DELETE_BLOGPOST',
             payload: id
@@ -55,7 +43,8 @@ const deleteBlogPost = dispatch => {
 }
 
 const editBlogPost = dispatch => {
-    return (id, title, content, callback) => {
+    return async (id, title, content, callback) => {
+        await jsonServer.put(`/blogposts/${id}`, { title, content });
         dispatch({
             type: 'EDIT_BLOGPOST',
             payload: {

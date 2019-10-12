@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(authRoutes);
 app.use(trackRoutes);
 
-const mongoUri = '';
+const mongoUri = 'mongodb://player-one:Dev1225@ds063170.mlab.com:63170/native-tracker';
 
 mongoose.connect(mongoUri, {
     useNewUrlParser: true,

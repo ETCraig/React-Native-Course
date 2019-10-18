@@ -2,9 +2,10 @@ import React, { useContext } from 'react';
 import { ActivityIndicator, StyleSheet, Text } from 'react-native';
 import MapView, { Polyline, Circle } from 'react-native-maps';
 import { Context as LocationContext } from '../context/locationContext';
+import { hasStartedLocationUpdatesAsync } from 'expo-location';
 
 const Map = () => {
-    const { state: { currentLocation } } = useContext(LocationContext);
+    const { currentLocation, location } = useContext(LocationContext);
 
     if (!currentLocation) {
         return <ActivityIndicator size="large" style={{ marginTop: 200 }} />
@@ -28,6 +29,7 @@ const Map = () => {
             strokeColor="rgba(158, 158, 255, 1.0)"
             fillColor="rgba(158, 158, 255, 1.3)"
         />
+        <Polyline coordinates={locations.map(loc => loc.coords)} />
     </MapView>
 }
 
